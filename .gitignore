@@ -8,9 +8,11 @@ __pycache__/
 # Test and lint cache
 .pytest_cache/
 .ruff_cache/
+.ipynb_checkpoints/
 
 # Secrets
 .env
+*.log
 
 # MLflow local tracking data
 mlruns/

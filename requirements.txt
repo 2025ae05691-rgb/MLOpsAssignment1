@@ -7,3 +7,5 @@ jupyter
 joblib
 requests
 mlflow
+pytest
+ruff
