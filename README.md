@@ -3,6 +3,8 @@
 
  Clone repo: git clone -b feature/MLOps https://github.com/2025ae05691-rgb/MLOpsAssignment1.git
 
+ git commit -m "Initial commit for Heart Disease MLOps project"    
+
  # Phase 1 - Build a machine learning model.
 
 1. Create virtual environment:
