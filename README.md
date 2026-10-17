@@ -45,5 +45,7 @@ h) requirements-lock.txt created and pip check passes
 1. __init__.py
 2. tests/test_pipeline.py
 3. Run the tests: python -m pytest tests -v
+4. New-Item -ItemType Directory -Force .github\workflows
+5. Create this file  .github/workflows/ci.yml
 
 
