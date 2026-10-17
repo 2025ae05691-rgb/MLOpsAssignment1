@@ -1,0 +1,22 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Test and lint cache
+.pytest_cache/
+.ruff_cache/
+
+# Secrets
+.env
+
+# MLflow local tracking data
+mlruns/
+mlflow.db
+mlflow.db-shm
+mlflow.db-wal
+
+# IDE settings
+.vscode/
