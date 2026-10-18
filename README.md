@@ -187,3 +187,9 @@ docker build -t santoshsrinivasg/heart-disease-api:1.2 .
 docker push santoshsrinivasg/heart-disease-api:1.2
 kubectl apply -f .\k8s\deployment.yml
 kubectl rollout status deployment/heart-disease-api
+
+# Evidence collection steps
+Step 1: Unit test cases and code quality check
+.\.venv\Scripts\ruff.exe check src tests --select E,F --ignore E402
+.\.venv\Scripts\python.exe -m pytest tests -v
+
