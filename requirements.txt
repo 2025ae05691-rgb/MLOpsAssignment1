@@ -9,3 +9,5 @@ requests
 mlflow
 pytest
 ruff
+fastapi
+uvicorn[standard]
