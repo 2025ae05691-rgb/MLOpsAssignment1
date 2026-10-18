@@ -79,7 +79,7 @@ Launch Fast API: http://127.0.0.1:8000/docs
 Step 4: Create docker image and docker ignore
 The Docker image installs only the API runtime dependencies from `requirements-runtime.txt`; the full `requirements.txt` remains for development, training, and CI.
 
-Step 5: Build image
+Step 5: Build image , push 
 docker build -t heart-disease-api:1.0 .
 
 Step 6: docker run --rm --name heart-disease-api -p 8000:8000 heart-disease-api:1.0
@@ -106,8 +106,40 @@ kubectl get deployments
 kubectl get pods
 kubectl get services
 
-Host : 
+Host service on local : 
 kubectl port-forward service/heart-disease-api 8000:8000
 http://127.0.0.1:8000/docs
 
+Below are Record the following for your report:
+- Docker version and successful image build.
+- Kubernetes node status.
+- Deployment and Service YAML files.
+- Successful rollout and pod status.
+- API health-check response.
+- Sample prediction response.
+- Container or Kubernetes logs.
+- Python and library versions used to build the model and API.
 
+Useful commands:
+
+Kubernetes node not ready	kubectl get nodes
+Pod not starting	        kubectl describe pod -l app=heart-disease-api
+Application error	        kubectl logs deployment/heart-disease-api
+Service configuration	    kubectl describe service heart-disease-api
+Recent cluster events	    kubectl get events --sort-by=.metadata.creationTimestamp
+Deployment status	        kubectl rollout status deployment/heart-disease-api
+
+Phase 6: Monitoring
+
+python -m pip install prometheus-client -- Added to requirements.txt
+
+docker build -t santoshsrinivasg/heart-disease-api:1.1 .
+docker push santoshsrinivasg/heart-disease-api:1.1
+
+Add new version(santoshsrinivasg/heart-disease-api:1.1) to deployment.yml
+
+kubectl apply -f .\k8s\deployment.yml
+kubectl set image deployment/heart-disease-api api=santoshsrinivasg/heart-disease-api:1.1
+kubectl rollout status deployment/heart-disease-api
+kubectl get deployment heart-disease-api -o jsonpath="{.spec.template.spec.containers[0].image}"
+kubectl port-forward service/heart-disease-api 8002:8000

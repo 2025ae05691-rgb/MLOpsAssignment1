@@ -11,3 +11,4 @@ pytest
 ruff
 fastapi
 uvicorn[standard]
+prometheus-client

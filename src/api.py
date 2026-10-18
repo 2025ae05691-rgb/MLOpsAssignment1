@@ -6,6 +6,8 @@ import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
+from src.monitoring import configure_monitoring
+
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = ROOT / "models" / "heart_disease_model.joblib"
 
@@ -19,6 +21,7 @@ app = FastAPI(
     title="Heart Disease Prediction API",
     version="1.0.0",
 )
+configure_monitoring(app)
 
 model = joblib.load(MODEL_PATH)
 
