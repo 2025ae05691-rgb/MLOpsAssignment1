@@ -5,6 +5,10 @@
 
  Clone repo: git clone -b feature/MLOps https://github.com/2025ae05691-rgb/MLOpsAssignment1.git
 
+ Pull:
+ git fetch origin
+git pull --ff-only origin feature/MLOps
+
  git commit -m "Initial commit for Heart Disease MLOps project"    
 
  # Phase 1 - Build a machine learning model.
@@ -143,3 +147,43 @@ kubectl set image deployment/heart-disease-api api=santoshsrinivasg/heart-diseas
 kubectl rollout status deployment/heart-disease-api
 kubectl get deployment heart-disease-api -o jsonpath="{.spec.template.spec.containers[0].image}"
 kubectl port-forward service/heart-disease-api 8002:8000
+
+Additional endpoints:
+- `GET /model-info` returns the API version, model type, feature names/count, and model classes.
+- `GET /metrics/summary` returns request/error counts and average request latency as JSON.
+- `GET /metrics` exposes raw Prometheus metrics.
+- `POST /predict/batch` accepts a non-empty `patients` array and returns one prediction per patient, in input order.
+
+Test locally after port-forwarding:
+http://127.0.0.1:8002/model-info
+http://127.0.0.1:8002/metrics/summary
+http://127.0.0.1:8002/metrics
+
+Batch prediction request shape:
+```json
+{
+  "patients": [
+    {
+      "age": 55,
+      "sex": 1,
+      "cp": 2,
+      "trestbps": 130,
+      "chol": 220,
+      "fbs": 0,
+      "restecg": 1,
+      "thalach": 150,
+      "exang": 0,
+      "oldpeak": 1.0,
+      "slope": 2,
+      "ca": 0,
+      "thal": 3
+    }
+  ]
+}
+```
+
+To deploy API code changes, build and push a new image tag, update the image in `k8s/deployment.yml`, and apply the manifest:
+docker build -t santoshsrinivasg/heart-disease-api:1.2 .
+docker push santoshsrinivasg/heart-disease-api:1.2
+kubectl apply -f .\k8s\deployment.yml
+kubectl rollout status deployment/heart-disease-api

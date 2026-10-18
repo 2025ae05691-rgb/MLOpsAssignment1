@@ -54,10 +54,20 @@ def normalize_path(request: Request) -> str:
     """Limit metric labels to a small, predictable set of paths."""
     path = request.url.path
 
-    if path in {"/health", "/metrics", "/docs", "/openapi.json"}:
+    if path in {
+        "/health",
+        "/metrics",
+        "/metrics/summary",
+        "/model-info",
+        "/docs",
+        "/openapi.json",
+    }:
         return path
 
     if path == "/predict":
+        return path
+
+    if path == "/predict/batch":
         return path
 
     return "/other"
@@ -123,3 +133,48 @@ def configure_monitoring(app: FastAPI) -> None:
             content=generate_latest(),
             media_type=CONTENT_TYPE_LATEST,
         )
+
+    @app.get("/metrics/summary")
+    async def metrics_summary():
+        """Return a compact JSON summary of collected API metrics."""
+        request_counts = []
+        request_total = 0
+        for metric in REQUEST_COUNT.collect():
+            for sample in metric.samples:
+                if sample.name != "heart_disease_http_requests_total":
+                    continue
+                count = int(sample.value)
+                request_total += count
+                request_counts.append(
+                    {
+                        "method": sample.labels["method"],
+                        "path": sample.labels["path"],
+                        "status": int(sample.labels["status"]),
+                        "count": count,
+                    }
+                )
+
+        error_total = sum(
+            int(sample.value)
+            for metric in HTTP_ERRORS.collect()
+            for sample in metric.samples
+            if sample.name == "heart_disease_http_errors_total"
+        )
+
+        latency_count = 0
+        latency_sum = 0.0
+        for metric in REQUEST_LATENCY.collect():
+            for sample in metric.samples:
+                if sample.name.endswith("_count"):
+                    latency_count += int(sample.value)
+                elif sample.name.endswith("_sum"):
+                    latency_sum += sample.value
+
+        return {
+            "requests_total": request_total,
+            "errors_total": error_total,
+            "average_latency_seconds": (
+                latency_sum / latency_count if latency_count else None
+            ),
+            "requests": request_counts,
+        }
