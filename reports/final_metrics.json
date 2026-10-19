@@ -3,11 +3,11 @@
   "best_parameters": {
     "classifier__max_depth": 5,
     "classifier__min_samples_leaf": 3,
-    "classifier__n_estimators": 100
+    "classifier__n_estimators": 200
   },
-  "best_cv_roc_auc": 0.9029920160354943,
-  "test_accuracy": 0.8688524590163934,
-  "test_precision": 0.8333333333333334,
-  "test_recall": 0.8928571428571429,
-  "test_roc_auc": 0.9448051948051949
+  "best_cv_roc_auc": 0.9040494127450648,
+  "test_accuracy": 0.8852459016393442,
+  "test_precision": 0.8387096774193549,
+  "test_recall": 0.9285714285714286,
+  "test_roc_auc": 0.9556277056277057
 }

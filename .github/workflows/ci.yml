@@ -2,9 +2,9 @@ name: Heart Disease MLOps CI
 
 on:
   push:
-    branches: [main, master, "feature/MLOps"]
+    branches: [main, master, "feature/MLOps1"]
   pull_request:
-    branches: [main, master, "feature/MLOps"]
+    branches: [main, master, "feature/MLOps1"]
   workflow_dispatch:
 
 permissions:

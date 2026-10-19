@@ -1,10 +1,10 @@
 $ErrorActionPreference = "Stop"
 
 $steps = @(
-    "src\download_data.py",
-    "src\eda.py",
-    "src\train.py",
-    "src\verify_model.py"
+    "src/download_data.py",
+    "src/eda.py",
+    "src/train.py",
+    "src/verify_model.py"
 )
 
 foreach ($step in $steps) {
