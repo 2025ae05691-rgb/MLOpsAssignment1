@@ -3,7 +3,7 @@
 
  Repo: https://github.com/2025ae05691-rgb/MLOpsAssignment1
 
- Clone repo: git clone -b feature/MLOps https://github.com/2025ae05691-rgb/MLOpsAssignment1.git
+ Clone repo: git clone -b feature/MLOps1 https://github.com/2025ae05691-rgb/MLOpsAssignment1.git
 
  Pull:
  git fetch origin
